@@ -42,13 +42,13 @@ public class Player : MonoBehaviour
 
         // Limites
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -4, 4), 0);
-        if(transform.position.x > 12f)
+        if(transform.position.x > 9.3f)
         {
-            transform.position = new Vector3(-12f, transform.position.y, 0);
+            transform.position = new Vector3(-9.3f, transform.position.y, 0);
         }
-        else if(transform.position.x < -12f)
+        else if(transform.position.x < -9.3f)
         {
-            transform.position = new Vector3(12f, transform.position.y, 0);
+            transform.position = new Vector3(9.3f, transform.position.y, 0);
         }
     }
 

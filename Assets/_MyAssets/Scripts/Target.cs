@@ -5,6 +5,12 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     [SerializeField] private float _speed = 5f;
+    private UiManager _uiManager;
+
+    void Start()
+    {
+        _uiManager = FindObjectOfType<UiManager>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -26,6 +32,7 @@ public class Target : MonoBehaviour
        if(other.tag == "Explosion")
         {
             Destroy(this.gameObject, 0f);
+            _uiManager.AddScore(10);
         }
     }
 }

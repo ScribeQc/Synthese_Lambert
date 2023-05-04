@@ -24,10 +24,10 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         while(!_stopSpawning)
         {
-            Vector3 spawnPosition = new Vector3(Random.Range(-11f, 11f), 7, 0);
+            Vector3 spawnPosition = new Vector3(Random.Range(-8f, 8f), 7, 0);
             GameObject newTarget = Instantiate(_targetPrefab, spawnPosition, Quaternion.identity);
             newTarget.transform.parent = _targetContainer.transform;
-            yield return new WaitForSeconds(Random.Range(4f, 8f));
+            yield return new WaitForSeconds(Random.Range(2f, 6f));
         }
     }
 
