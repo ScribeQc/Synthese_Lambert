@@ -27,7 +27,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 spawnPosition = new Vector3(Random.Range(-11f, 11f), 7, 0);
             GameObject newTarget = Instantiate(_targetPrefab, spawnPosition, Quaternion.identity);
             newTarget.transform.parent = _targetContainer.transform;
-            yield return new WaitForSeconds(Random.Range(5f, 10f));
+            yield return new WaitForSeconds(Random.Range(4f, 8f));
         }
     }
 

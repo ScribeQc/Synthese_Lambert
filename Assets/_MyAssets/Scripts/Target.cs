@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private float _speed = 5f;
 
     // Update is called once per frame
     void Update()
     {
-        
+        CalculateMovement();
+    }
+
+    public void CalculateMovement()
+    {
+        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        if (transform.position.y <= -5f)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+       if(other.tag == "Explosion")
+        {
+            Destroy(this.gameObject, 0f);
+        }
     }
 }
