@@ -5,18 +5,22 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject _targetPrefab = default;
+    [SerializeField] private GameObject _enemyPrefab = default;
     [SerializeField] private GameObject _targetContainer = default;
     private bool _stopSpawning = false;
+    private UiManager _uiManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        _uiManager = FindObjectOfType<UiManager>();
         StartSpawning();
     }
 
     public void StartSpawning()
     {
         StartCoroutine(SpawnTargetRoutine());
+        StartCoroutine(SpawnEnemyRoutine());
     }
 
     IEnumerator SpawnTargetRoutine()
@@ -28,6 +32,25 @@ public class SpawnManager : MonoBehaviour
             GameObject newTarget = Instantiate(_targetPrefab, spawnPosition, Quaternion.identity);
             newTarget.transform.parent = _targetContainer.transform;
             yield return new WaitForSeconds(Random.Range(2f, 6f));
+        }
+    }
+
+    IEnumerator SpawnEnemyRoutine()
+    {
+        yield return new WaitForSeconds(3f);
+        while(!_stopSpawning)
+        {
+            if(_uiManager.GetScore() >= 10)
+            {
+                Vector3 spawnPosition = new Vector3(Random.Range(-8f, 8f), 7, 0);
+                GameObject newEnemy = Instantiate(_enemyPrefab, spawnPosition, Quaternion.Euler(180, 0, 0));
+                newEnemy.transform.parent = _targetContainer.transform;
+                yield return new WaitForSeconds(Random.Range(6f, 12f));
+            }
+            else
+            {
+                yield return new WaitForSeconds(1f);
+            }
         }
     }
 

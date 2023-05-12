@@ -9,11 +9,17 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _bombPrefab = default;
     [SerializeField] private float _fireRate = 5f;
     private float _canFire = -1f;
+    private int _playerHp = 4;
+    private SpawnManager _spawnManager;
+    private UiManager _uiManager;
+
 
     // Start is called before the first frame update
     void Start()
     {
         transform.position = new Vector3(0, -4, 0);
+        _spawnManager = FindObjectOfType<SpawnManager>();
+        _uiManager = FindObjectOfType<UiManager>();
     }
 
     // Update is called once per frame
@@ -67,6 +73,28 @@ public class Player : MonoBehaviour
         {
             Instantiate(_bombPrefab, (position + new Vector3(0, -i-1f, 0)), Quaternion.identity);
             yield return new WaitForSeconds(0.05f);
+        }
+    }
+
+    public void Damage()
+    {
+        _playerHp--;
+        _uiManager.UpdateHp(_playerHp * 0.25f);
+        if(_playerHp < 1)
+        {
+            _spawnManager.OnPlayerDeath();
+            Vector3 position = new Vector3(transform.position.x, transform.position.y, 0);
+            Instantiate(_bombPrefab, position, Quaternion.identity);
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.tag == "EnemyProjectile")
+        {
+            Destroy(other.gameObject);
+            Damage();
         }
     }
 }
