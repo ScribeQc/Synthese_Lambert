@@ -13,19 +13,20 @@ public class UiManager : MonoBehaviour
     private int _hpBarHeight = 50;
     private int _newHpBarWidth;
     private int _newHpBarHeight;
-    private int _score;
+    private GameManager _gameManager;
+    private Player _player;
 
     // Start is called before the first frame update
     void Start()
     {
+        _gameManager = FindObjectOfType<GameManager>();
+        _player = FindObjectOfType<Player>();
+
         // Score
-        _score = 0;
-        scoreText.text = "SCORE: " + _score.ToString("00000000");
+        scoreText.text = "SCORE: " + _gameManager.GetScoreString();
 
         // Time
-        var minutes = Mathf.FloorToInt(Time.time / 60F);
-        var seconds = Mathf.FloorToInt(Time.time - minutes * 60);
-        timeText.text = "TEMPS: " + minutes.ToString("00") + ":" + seconds.ToString("00");
+        timeText.text = "TEMPS: " + _gameManager.GetTimeString();
 
         // HpBar
         var _hpBarRectTransform = _hpBar.transform as RectTransform;
@@ -38,28 +39,33 @@ public class UiManager : MonoBehaviour
     void Update()
     {
         // Score
-        scoreText.text = "SCORE: " + _score.ToString("00000000");
+        scoreText.text = "SCORE: " + _gameManager.GetScoreString();
 
         // Time
-        var minutes = Mathf.FloorToInt(Time.time / 60F);
-        var seconds = Mathf.FloorToInt(Time.time - minutes * 60);
-        timeText.text = "TEMPS: " + minutes.ToString("00") + ":" + seconds.ToString("00");
+        timeText.text = "TEMPS: " + _gameManager.GetTimeString();
     }
 
-    public void AddScore(int i)
+    private void Flash()
     {
-        _score += i;
+        StartCoroutine(FlashRoutine());
     }
 
-    public int GetScore()
+    IEnumerator FlashRoutine()
     {
-        return _score;
+        for (int i = 0; i < 3; i++)
+        {
+            _hpBar.GetComponent<Image>().enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            _hpBar.GetComponent<Image>().enabled = true;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     public void UpdateHp(float hp)
     {
         _newHpBarWidth = (int)(_hpBarWidth * hp);
-        _newHpBarHeight = (int)(_hpBarHeight * hp);
+        _newHpBarHeight = (int)(_hpBarHeight * (hp + 0.1f));
+        Flash();
         if(_newHpBarWidth < 0)
         {
             _newHpBarWidth = 0;
@@ -68,6 +74,19 @@ public class UiManager : MonoBehaviour
         {
             _newHpBarWidth = 440;
         }
+        if(_player.GetHp() < 4)
+        {
+            _hpBar.GetComponent<Image>().color = new Color(255, 190, 0);
+        }
+        if(_player.GetHp() < 3)
+        {
+            _hpBar.GetComponent<Image>().color = new Color(255, 95, 0);
+        }
+        if(_player.GetHp() < 2)
+        {
+            _hpBar.GetComponent<Image>().color = new Color(255, 0, 0);
+        }
+
         var _hpBarRectTransform = _hpBar.transform as RectTransform;
         _hpBarRectTransform.sizeDelta = new Vector2(_newHpBarWidth, _newHpBarHeight);
     }

@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject _bombPrefab = default;
     [SerializeField] private float _fireRate = 3f;
     private float _canFire = -1f;
+    private GameManager _gameManager;
     
     private UiManager _uiManager;
     private Player _player;
@@ -17,6 +18,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         _uiManager = FindObjectOfType<UiManager>();
         _player = FindObjectOfType<Player>();
         randomY = Random.Range(1f, 4f);
@@ -61,7 +63,7 @@ public class Enemy : MonoBehaviour
             Destroy(other.gameObject);
             if(_uiManager != null)
             {
-                _uiManager.AddScore(50);
+                _gameManager.AddScore(50);
             }
             Instantiate(_bombPrefab, transform.position, Quaternion.identity);
             Destroy(this.gameObject);

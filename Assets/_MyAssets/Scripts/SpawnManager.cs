@@ -8,11 +8,13 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _enemyPrefab = default;
     [SerializeField] private GameObject _targetContainer = default;
     private bool _stopSpawning = false;
+    private GameManager _gameManager;
     private UiManager _uiManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         _uiManager = FindObjectOfType<UiManager>();
         StartSpawning();
     }
@@ -40,7 +42,7 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         while(!_stopSpawning)
         {
-            if(_uiManager.GetScore() >= 10)
+            if(_gameManager.GetScore() >= 10)
             {
                 Vector3 spawnPosition = new Vector3(Random.Range(-8f, 8f), 7, 0);
                 GameObject newEnemy = Instantiate(_enemyPrefab, spawnPosition, Quaternion.Euler(180, 0, 0));

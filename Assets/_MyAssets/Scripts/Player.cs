@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _fireRate = 5f;
     private float _canFire = -1f;
     private int _playerHp = 4;
+    private GameManager _gameManager;
     private SpawnManager _spawnManager;
     private UiManager _uiManager;
 
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         transform.position = new Vector3(0, -4, 0);
+        _gameManager = FindObjectOfType<GameManager>();
         _spawnManager = FindObjectOfType<SpawnManager>();
         _uiManager = FindObjectOfType<UiManager>();
     }
@@ -71,7 +73,8 @@ public class Player : MonoBehaviour
         Vector3 position = new Vector3(transform.position.x, transform.position.y, 0);
         for (int i = 0; i < worldSpace; i++)
         {
-            Instantiate(_bombPrefab, (position + new Vector3(0, -i-1f, 0)), Quaternion.identity);
+            //Instantiate(_bombPrefab, (position + new Vector3(0, -i-1f, 0)), Quaternion.identity);
+            Instantiate(_bombPrefab, (position + new Vector3(0, i-6f, 0)), Quaternion.identity);
             yield return new WaitForSeconds(0.05f);
         }
     }
@@ -80,6 +83,7 @@ public class Player : MonoBehaviour
     {
         _playerHp--;
         _uiManager.UpdateHp(_playerHp * 0.25f);
+        Flash();
         if(_playerHp < 1)
         {
             _spawnManager.OnPlayerDeath();
@@ -88,6 +92,40 @@ public class Player : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    public void Heal()
+    {
+        if(_playerHp < 4)
+        {
+            _playerHp++;
+            _uiManager.UpdateHp(_playerHp * 0.25f);
+            Flash();
+        }
+    }
+
+    public int GetHp()
+    {
+        return _playerHp;
+    }
+
+    private void Flash()
+    {
+        StartCoroutine(FlashRoutine());
+    }
+
+    IEnumerator FlashRoutine()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = true;
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {

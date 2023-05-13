@@ -5,10 +5,12 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     [SerializeField] private float _speed = 5f;
+    private GameManager _gameManager;
     private UiManager _uiManager;
 
     void Start()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         _uiManager = FindObjectOfType<UiManager>();
     }
 
@@ -21,7 +23,7 @@ public class Target : MonoBehaviour
     public void CalculateMovement()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
-        if (transform.position.y <= -5f)
+        if (transform.position.y <= -6f)
         {
             Destroy(gameObject);
         }
@@ -32,7 +34,7 @@ public class Target : MonoBehaviour
        if(other.tag == "Explosion")
         {
             Destroy(this.gameObject, 0f);
-            _uiManager.AddScore(10);
+            _gameManager.AddScore(10);
         }
     }
 }
