@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1570ca906d1e1fa498bb2f0bd649e9df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 5998fcc9fd7179843b550f43ac0b945c, type: 3}
+  _clip: {fileID: 8300000, guid: 66d5707e0266c3c4faa03957766cf953, type: 3}
 --- !u!50 &796992825941724067
 Rigidbody2D:
   serializedVersion: 4
@@ -179,7 +179,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5998fcc9fd7179843b550f43ac0b945c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 66d5707e0266c3c4faa03957766cf953, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.007
   m_Pitch: -0.5

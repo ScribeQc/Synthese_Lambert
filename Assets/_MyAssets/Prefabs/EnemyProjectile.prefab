@@ -147,3 +147,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 20
+  _clip: {fileID: 8300000, guid: b8647503534f16841a4df69f0531678b, type: 3}

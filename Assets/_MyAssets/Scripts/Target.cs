@@ -34,7 +34,7 @@ public class Target : MonoBehaviour
        if(other.tag == "Explosion")
         {
             Destroy(this.gameObject, 0f);
-            _gameManager.AddScore(10);
+            _gameManager.AddScore(10 * _gameManager.GetScoreMultiplier());
         }
     }
 }

@@ -42,7 +42,10 @@ public class UiManager : MonoBehaviour
         scoreText.text = "SCORE: " + _gameManager.GetScoreString();
 
         // Time
-        timeText.text = "TEMPS: " + _gameManager.GetTimeString();
+        if(!_gameManager.IsGameOver())
+        {
+            timeText.text = "TEMPS: " + _gameManager.GetTimeString();
+        }
     }
 
     private void Flash()

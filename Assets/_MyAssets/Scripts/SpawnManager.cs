@@ -33,7 +33,7 @@ public class SpawnManager : MonoBehaviour
             Vector3 spawnPosition = new Vector3(Random.Range(-8f, 8f), 7, 0);
             GameObject newTarget = Instantiate(_targetPrefab, spawnPosition, Quaternion.identity);
             newTarget.transform.parent = _targetContainer.transform;
-            yield return new WaitForSeconds(Random.Range(2f, 6f));
+            yield return new WaitForSeconds(Random.Range(2f, 6f)/_gameManager.GetSpawnMultiplier());
         }
     }
 
@@ -47,7 +47,7 @@ public class SpawnManager : MonoBehaviour
                 Vector3 spawnPosition = new Vector3(Random.Range(-8f, 8f), 7, 0);
                 GameObject newEnemy = Instantiate(_enemyPrefab, spawnPosition, Quaternion.Euler(180, 0, 0));
                 newEnemy.transform.parent = _targetContainer.transform;
-                yield return new WaitForSeconds(Random.Range(6f, 12f));
+                yield return new WaitForSeconds(Random.Range(10f, 20f)/_gameManager.GetSpawnMultiplier());
             }
             else
             {
@@ -59,5 +59,6 @@ public class SpawnManager : MonoBehaviour
     public void OnPlayerDeath()
     {
         _stopSpawning = true;
+        _gameManager.GameOver();
     }
 }

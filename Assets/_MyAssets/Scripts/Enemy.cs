@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour
             Destroy(other.gameObject);
             if(_uiManager != null)
             {
-                _gameManager.AddScore(50);
+                _gameManager.AddScore(50 * _gameManager.GetScoreMultiplier());
             }
             Instantiate(_bombPrefab, transform.position, Quaternion.identity);
             Destroy(this.gameObject);

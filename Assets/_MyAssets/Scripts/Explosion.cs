@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    [SerializeField] private AudioClip clip;
+    [SerializeField] private AudioClip _clip;
 
     void Start()
     {
-        AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(_clip, Camera.main.transform.position);
     }
 
     // Update is called once per frame

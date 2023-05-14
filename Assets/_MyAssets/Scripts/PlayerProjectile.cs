@@ -5,6 +5,12 @@ using UnityEngine;
 public class PlayerProjectile : MonoBehaviour
 {
     [SerializeField] private float _speed = 20f;
+    [SerializeField] private AudioClip _clip;
+
+    private void Start()
+    {
+        AudioSource.PlayClipAtPoint(_clip, Camera.main.transform.position);
+    }
 
     // Update is called once per frame
     void Update()
