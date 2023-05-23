@@ -13,6 +13,10 @@ public class UiManager : MonoBehaviour
     private int _hpBarHeight = 50;
     private int _newHpBarWidth;
     private int _newHpBarHeight;
+    private Color full = new Color(0f, 255f, 0f);
+    private Color threeQuarters = new Color(255f, 200f, 0f);
+    private Color half = new Color(255f, 127/255f, 0f);
+    private Color low = new Color(255f, 0f, 0f);
     private GameManager _gameManager;
     private Player _player;
 
@@ -55,12 +59,23 @@ public class UiManager : MonoBehaviour
 
     IEnumerator FlashRoutine()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
-            _hpBar.GetComponent<Image>().enabled = false;
+            _hpBar.GetComponent<Image>().color = new Color(255f, 0f, 0f);
             yield return new WaitForSeconds(0.1f);
-            _hpBar.GetComponent<Image>().enabled = true;
-            yield return new WaitForSeconds(0.1f);
+            if(_player.GetHp() < 4)
+            {
+                _hpBar.GetComponent<Image>().color = threeQuarters;
+            }
+            if(_player.GetHp() < 3)
+            {
+                _hpBar.GetComponent<Image>().color = half;
+            }
+            if(_player.GetHp() < 2)
+            {
+                _hpBar.GetComponent<Image>().color = low;
+            }
+            yield return new WaitForSeconds(0.1f);  
         }
     }
 
@@ -79,15 +94,15 @@ public class UiManager : MonoBehaviour
         }
         if(_player.GetHp() < 4)
         {
-            _hpBar.GetComponent<Image>().color = new Color(255, 190, 0);
+            _hpBar.GetComponent<Image>().color = threeQuarters;
         }
         if(_player.GetHp() < 3)
         {
-            _hpBar.GetComponent<Image>().color = new Color(255, 95, 0);
+            _hpBar.GetComponent<Image>().color = half;
         }
         if(_player.GetHp() < 2)
         {
-            _hpBar.GetComponent<Image>().color = new Color(255, 0, 0);
+            _hpBar.GetComponent<Image>().color = low;
         }
 
         var _hpBarRectTransform = _hpBar.transform as RectTransform;

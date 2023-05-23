@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     
     private UiManager _uiManager;
     private Player _player;
+    private Animator _animator;
     private float randomY = 0;
 
     // Start is called before the first frame update
@@ -21,6 +22,9 @@ public class Enemy : MonoBehaviour
         _gameManager = FindObjectOfType<GameManager>();
         _uiManager = FindObjectOfType<UiManager>();
         _player = FindObjectOfType<Player>();
+        _animator = GetComponent<Animator>();
+        _animator.SetBool("turnLeft", false);
+        _animator.SetBool("turnRight", false);
         randomY = Random.Range(1f, 4f);
     }
 
@@ -36,13 +40,32 @@ public class Enemy : MonoBehaviour
 
     public void CalculateMovement()
     {
+        var enemyPosition = transform.position.x;
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
         float worldSpace = Mathf.Abs(transform.position.x);
+
         if (transform.position.y <= randomY)
         {
             transform.position = new Vector3(Mathf.Clamp(transform.position.x, -8, 8), randomY, 0);
             Vector3 movement = new Vector3(worldSpace * Mathf.Sin(Time.time * _speed), randomY, 0);
             transform.Translate(movement *_speed * Time.deltaTime);
+        }
+
+        // Animation
+        if (transform.position.x < enemyPosition)
+        {
+            _animator.SetBool("turnLeft", true);
+            _animator.SetBool("turnRight", false);
+        }
+        if (transform.position.x > enemyPosition)
+        {
+            _animator.SetBool("turnLeft", false);
+            _animator.SetBool("turnRight", true);
+        }
+        if(transform.position.x == enemyPosition)
+        {
+            _animator.SetBool("turnLeft", false);
+            _animator.SetBool("turnRight", false);
         }
     }
 

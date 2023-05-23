@@ -8,7 +8,7 @@ public class Explosion : MonoBehaviour
 
     void Start()
     {
-        AudioSource.PlayClipAtPoint(_clip, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(_clip, Camera.main.transform.position, volume: 0.5f);
     }
 
     // Update is called once per frame
